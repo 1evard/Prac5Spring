@@ -17,11 +17,9 @@
         <h4 th:text="${'Текст: '+el.full_text}"></h4>
     </div>
     <br>
-    <button type="submit">Найти</button>
+    <button class="shadow-text" type="submit">Найти</button>
     <br>
-    <button>
-        <a onclick="javascript:history.back(-2); return false;">Назад</a>
-    </button>
+    <button class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</button>
 </form>
 <!--<form th:action=" '/blog/filter/' + ${el.id} + '/remove'" method="post">-->
 <!--  <button type="submit" class="btn btn-del">Удалить</button>-->
@@ -42,7 +40,6 @@
         color:#335;
     }
     button{
-
         font-size: 25px;
         width: 250px;
         height: 50px;
@@ -56,5 +53,20 @@
         margin-top: 20px;
         background-color: mediumpurple;
         border-radius: 15px;
+    }
+    .shadow-text{
+        color: #000000;
+        font-size: 1.7em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    .shadow-text:hover{
+        color: #9900FF;
+        font-weight: bold;
+        -webkit-text-shadow: 2px 2px 2px #000;
+        -moz-text-shadow: 2px 2px 2px #000;
+        text-shadow: 2px 2px 2px #000;
     }
 </style>

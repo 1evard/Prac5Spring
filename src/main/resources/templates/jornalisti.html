@@ -5,16 +5,17 @@
     <title>Журналисты</title>
 </head>
 <body bgcolor="6600CC" th:align="center">
-<h1>Все журналисты</h1>
+<h1>Журналисты</h1>
+    <div th:align="center" th:each="el : ${jornalisti}">
+        <h3 th:text="${'Имя: '+el.name}"></h3>
+        <h3 th:text="${'Фамилия: '+el.fam}"></h3>
+        <h4 th:text="${'Оклад: '+el.cena}"></h4>
+        <h4 th:text="${'Изданных статей: '+el.kolvastat}"></h4>
+        <h4 th:text="${'Дата рождения: '+el.denroj}"></h4>
+        <button><a th:href=" '/jornalisti/' + ${el.id}">Подробнее</a></button>
+    </div>
 
-<div th:each="ooda : ${jornalists}">
-    <h3>----------------------------------------------------------------</h3>
-    <h3 th:text="${'Имя: '+ooda.name}"></h3>
-    <h3 th:text="${'Фамилия: '+ooda.fam}"></h3>
-      <h4 th:text="${'Оклад: '+ooda.cena}"></h4>
-    <h4 th:text="${'Изданных статей: '+ooda.kolvastat}"></h4>
-    <h4 th:text="${'Дата рождения: '+ooda.denroj}"></h4>
-</div>
+
 
 <button>
     <a href="/jornalisti/filter">Поиск журналистов</a>
@@ -29,6 +30,12 @@
 </body>
 </html>
 <style>
+    div{
+        margin-top: 25px;
+        border-style: dashed;
+        /*width: 300px;*/
+        /*background-color: #9900FF;*/
+    }
     html *{
         font-family: Arial !important;
     }
@@ -42,5 +49,6 @@
         margin-top: 20px;
         background-color: blueviolet;
         border-radius: 15px;
+        margin-bottom: 25px;
     }
 </style>

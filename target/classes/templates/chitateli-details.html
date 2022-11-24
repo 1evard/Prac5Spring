@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body bgcolor="6600CC" th:align="center">
+<h1>Подробная информация</h1>
+<div th:each="el : ${chitateli}">
+    <h3 th:text="${'Имя журналиста: '+el.name}"></h3>
+    <h3 th:text="${'Фамилия журналиста: '+el.fam}"></h3>
+    <h3 th:text="${'Цена статьи: '+el.oklad}"></h3>
+    <h3 th:text="${'Количество статей: '+el.kolvostat}"></h3>
+    <h3 th:text="${'Дата рождения: '+el.denroj}"></h3>
+    <button><a class="shadow-text" th:href=" '/chitateli/' + ${el.id} + '/edit'">Редактировать</a></button>
+    <form class="shadow-text" th:action=" '/chitateli/' + ${el.id} + '/remove'" method="post">
+        <button type="submit" class="btn btn-del">Удалить</button>
+    </form>
+    <button><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></button>
+</div>
+</body>
+</html>
+<style>
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color:#335;
+    }
+    button{
+        width: 250px;
+        height: 50px;
+        margin-top: 20px;
+        background-color: blueviolet;
+        border-radius: 15px;
+    }
+    .shadow-text{
+        color: #000000;
+        font-size: 1.7em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    .shadow-text:hover{
+        color: #9900FF;
+        font-weight: bold;
+        -webkit-text-shadow: 2px 2px 2px #000;
+        -moz-text-shadow: 2px 2px 2px #000;
+        text-shadow: 2px 2px 2px #000;
+    }
+</style>

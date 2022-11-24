@@ -3,28 +3,28 @@ package com.example.demo.models;
 import javax.persistence.*;
 import java.util.Date;
 @Entity
-@Table(name = "chitateli")
-public class Chitateli {
+@Table(name = "jornalisti")
+public class Jornalisti {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name, fam;
-    private Double oklad;
-    private Integer kolvostat;
+    private Double cena;
+    private Integer kolvastat;
     @Temporal(TemporalType.DATE)
     private Date denroj;
 
     private int views;
 
-    public Chitateli(String name, String fam, Integer kolvostat, Date denroj, Double oklad) {
+    public Jornalisti(String name, String fam, Integer kolvastat, Date denroj, Double cena) {
         this.name = name;
         this.fam = fam;
-        this.kolvostat = kolvostat;
+        this.kolvastat = kolvastat;
         this.denroj = denroj;
-        this.oklad = oklad;
+        this.cena = cena;
     }
 
-    public Chitateli() {
+    public Jornalisti() {
 
     }
 
@@ -61,19 +61,20 @@ public class Chitateli {
         this.denroj = denroj;
     }
 
-    public Integer getKolvostat() {
-        return kolvostat;
+
+    public Double getCena() {
+        return cena;
     }
 
-    public void setKolvostat(Integer kolvostat) {
-        this.kolvostat = kolvostat;
+    public void setCena(Double cena) {
+        this.cena = cena;
     }
 
-    public Double getOklad() {
-        return oklad;
+    public Integer getKolvastat() {
+        return kolvastat;
     }
 
-    public void setOklad(Double oklad) {
-        this.oklad = oklad;
+    public void setKolvastat(Integer kolvastat) {
+        this.kolvastat = kolvastat;
     }
 }

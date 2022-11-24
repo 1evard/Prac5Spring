@@ -5,28 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body topmargin="250"  bgcolor="6600CC" th:align="center">
-    <button>
-        <a href="/blog">Публикации</a>
-    </button>
+    <button class="shadow-text" onclick="window.location.href = '/stati';">Публикации</button>
     <br>
-    <button>
-        <a href="/jornalisti">Журналисты</a>
-    </button>
+    <button class="shadow-text" onclick="window.location.href = '/jornalisti';">Журналисты</button>
     <br>
-    <button>
-        <a href="/chitateli">Читатели</a>
-    </button>
+    <button class="shadow-text" onclick="window.location.href = '/chitateli';">Читатели</button>
 </body>
 </html>
 <style>
     html *{
         font-family: Arial !important;
-    }
-    a{
-        text-decoration: none;
-    }
-    a:hover{
-        color:#FFF;
     }
     button{
         font-size: 25px;
@@ -39,5 +27,20 @@
     button:hover{
         border-color: mediumpurple;
         box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5)
+    }
+    .shadow-text{
+        color: #000000;
+        font-size: 1.7em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    .shadow-text:hover{
+        color: #9900FF;
+        font-weight: bold;
+        -webkit-text-shadow: 2px 2px 2px #000;
+        -moz-text-shadow: 2px 2px 2px #000;
+        text-shadow: 2px 2px 2px #000;
     }
 </style>
