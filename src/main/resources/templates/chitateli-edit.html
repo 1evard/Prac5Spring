@@ -7,42 +7,80 @@
 <body bgcolor="6600CC" th:align="center">
 <h1>Редактирование</h1>
 <form method="post">
-  <div th:each="el : ${chitateli}">
-    <input th:value="${el.name}" type="text" name="name" placeholder="Введите название статьи"><br>
-    <input th:value="${el.fam}" type="text" name="fam" placeholder="Введите дату выхода"><br>
-    <input th:value="${el.oklad}" type="text" name="oklad" placeholder="Введите количество часов"><br>
-    <input th:value="${el.kolvostat}" type="text" name="kolvostat" placeholder="Введите цену"><br>
-    <input th:value="${el.denroj}" type="date" name="denroj" placeholder="Введите текст статьи"><br>
-    <button type="submit">Применить</button>
-      <br>
-      <button>
-          <a onclick="javascript:history.back(-2); return false;">Назад</a>
-      </button>
+  <div th:each="el : ${chitateli}" th:object="${chitateli}">
+    <input th:field="*{name}" th:value="${chitateli.name}" type="text" name="name" placeholder="Введите имя читателя"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div><br>
+
+    <input th:field="*{fam}" th:value="${chitateli.fam}" type="text" name="fam" placeholder="Введите фамилию читателя"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('fam')}" th:errors="*{fam}"></div><br>
+
+    <input th:field="*{denroj}" th:value="${chitateli.denroj}" type="date" name="denroj" placeholder="Введите дату рождения"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('denroj')}" th:errors="*{denroj}"></div><br>
+
+    <input th:field="*{kolvostat}" th:value="${chitateli.kolvostat}" type="text" name="kolvostat" placeholder="Введите кол-во статей"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('kolvostat')}" th:errors="*{kolvostat}"></div><br>
+
+    <input th:field="*{oklad}" th:value="${chitateli.oklad}" type="text" name="oklad" placeholder="Введите оклад читателя"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('oklad')}" th:errors="*{oklad}"></div><br>
+
+    <p><a><button class="shadow-text" type="submit">Применить</button></a></p><br>
+    <p><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></p>
   </div>
 </form>
 </body>
 </html>
 <style>
+  html *{
+    font-family: Arial !important;
+  }
   a{
     text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: #9900FF;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    margin-top: 100px;
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
   }
   a:hover{
-    color:#335;
+    color: whitesmoke;
+    border-color: mediumpurple;
+    box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);
+    font-weight: bold;
   }
-  button{
-
-    font-size: 25px;
-    width: 250px;
-    height: 50px;
-    margin-top: 20px;
-    background-color: blueviolet;
-    border-radius: 15px;
+  p{
+    margin-top: 50px;
   }
   input{
-    width: 205px;
-    height: 55px;
-    margin-top: 20px;
-    background-color: mediumpurple;
-    border-radius: 15px;
+    color: black;
+    width: 200px;
+    height: 50px;
+    background-color: #9900FF;
+    border-radius: 20px;
+  }
+  textarea{
+    color: black;
+    width: 200px;
+    height: 50px;
+    background-color: #9900FF;
+    border-radius: 20px;
+  }
+  button{
+    font-size: 15px;
+    background-color: #9900FF;
   }
 </style>

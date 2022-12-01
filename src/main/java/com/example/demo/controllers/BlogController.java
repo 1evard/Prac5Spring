@@ -10,6 +10,8 @@ import com.example.demo.models.Post;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -19,10 +21,9 @@ public class BlogController  {
     @Autowired
     private PostRepository postRepository;
     @Autowired
-    private JornalRepository jornalRepository;
-    @Autowired
     private ReaderRepository chitRepository;
-
+    @Autowired
+    private JornalRepository jornalRepository;
 
     @GetMapping("/")
     public String Main(Model model)
@@ -38,38 +39,20 @@ public class BlogController  {
         return "stati";
     }
 
-    @GetMapping("/jornalisti")
-    public String blogJornalists(Model model)
-    {
-        Iterable<Jornalisti> jornalisti = jornalRepository.findAll();
-        model.addAttribute("jornalisti", jornalisti);
-        return "jornalisti";
-    }
-
-    @GetMapping("/chitateli")
-    public String chitateli(Model model)
-    {
-        Iterable<Chitateli> chitateliIterable = chitRepository.findAll();
-        model.addAttribute("chitateli", chitateliIterable);
-        return "chitateli";
-    }
-
    @GetMapping("/blog/add")
-    public String blogAdd(Model model)
+    public String blogAdd(Post post,Model model)
     {
         return "blog-add";
     }
 
     @PostMapping("/blog/add")
-    public String blogPostAdd(@RequestParam String title,
-                              @RequestParam(defaultValue = "1999-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd")  Date datavihoda,
-                              @RequestParam Double cenastat,
-                              @RequestParam Float hours,
-                              @RequestParam String full_text, Model model)
+    public Object blogPostAdd(@ModelAttribute("post")@Validated Post post, BindingResult bindingResult)
     {
-        Post post = new Post(title, datavihoda, full_text, cenastat, hours);
+        if(bindingResult.hasErrors()){
+            return "blog-add";
+        }
         postRepository.save(post);
-        return "redirect:/";
+        return "redirect:/stati";
     }
 
     @GetMapping("/blog/filter")
@@ -93,42 +76,28 @@ public class BlogController  {
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
         model.addAttribute("post", res);
-        if(!postRepository.existsById(id)){
-            return "redirect:/stati";
-        }
         return "blog-details";
     }
 
     @GetMapping("/blog/{id}/edit")
     public String blogEdit(@PathVariable("id") long id, Model model)
     {
-        if(!postRepository.existsById(id)){
-            return "redirect:/";
-        }
-        Optional<Post> post = postRepository.findById(id);
-        ArrayList<Post> res = new ArrayList<>();
-        post.ifPresent(res::add);
+        Post res = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: "+id));
         model.addAttribute("post", res);
-
         return "blog-edit";
     }
 
     @PostMapping("/blog/{id}/edit")
     public String blogPostUpdate(@PathVariable("id") long id,
-                                 @RequestParam String title,
-                                 @RequestParam(defaultValue = "1999-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd")  Date datavihoda,
-                                 @RequestParam Double cenastat,
-                                 @RequestParam Float hours,
-                                 @RequestParam String full_text, Model model)
+                                 @ModelAttribute("post")
+                                 @Validated Post post, BindingResult bindingResult)
     {
-        Post post = postRepository.findById(id).orElseThrow();
-        post.setTitle(title);
-        post.setCenastat(cenastat);
-        post.setHours(hours);
-        post.setDatavihoda(datavihoda);
-        post.setFull_text(full_text);
+        post.setId(id);
+        if(bindingResult.hasErrors()){
+            return "blog-edit";
+        }
         postRepository.save(post);
-        return "redirect:/";
+        return "redirect:/stati";
     }
 
     @PostMapping("/blog/{id}/remove")
@@ -136,7 +105,7 @@ public class BlogController  {
     {
         Post post = postRepository.findById(id).orElseThrow();
         postRepository.delete(post);
-        return "redirect:/";
+        return "redirect:/stati";
     }
 
 
@@ -144,6 +113,114 @@ public class BlogController  {
 
 
 
+
+
+
+
+
+
+
+
+
+    @GetMapping("/chitateli")
+    public String chitateli(Model model)
+    {
+        Iterable<Chitateli> chitateliIterable = chitRepository.findAll();
+        model.addAttribute("chitateli", chitateliIterable);
+        return "chitateli";
+    }
+    @GetMapping("/chitateli/filter")
+    public String chitatelFilter(Model model)
+    {
+        return "chitateli-filter";
+    }
+
+    @PostMapping("/chitateli/filter/result")
+    public String chitatelResult(@RequestParam String fam, Model model)
+    {
+        List<Chitateli> result = chitRepository.findByFam(fam);
+        model.addAttribute("result", result);
+        return "chitateli-filter";
+    }
+    @GetMapping("/chitateli/add")
+    public String chitatelAdd(Chitateli chitateli, Model model)
+    {
+        return "chitateli-add";
+    }
+
+    @PostMapping("/chitateli/add")
+    public Object chitatelAdd(@ModelAttribute("chitateli")@Validated Chitateli chitateli, BindingResult bindingResult)
+    {
+        if(bindingResult.hasErrors()){
+            return "chitateli-add";
+        }
+        chitRepository.save(chitateli);
+        return "redirect:/chitateli";
+    }
+
+    @GetMapping("/chitateli/{id}")
+    public String chitatelDetails(@PathVariable(value = "id") long id, Model model)
+    {
+        Optional<Chitateli> chitateli = chitRepository.findById(id);
+        ArrayList<Chitateli> res = new ArrayList<>();
+        chitateli.ifPresent(res::add);
+        model.addAttribute("chitateli", res);
+        if(!chitRepository.existsById(id)){
+            return "redirect:/chitateli";
+        }
+        return "chitateli-details";
+    }
+
+    @GetMapping("/chitateli/{id}/edit")
+    public String chitatelEdit(@PathVariable("id") long id, Model model)
+    {
+        Chitateli res = chitRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: "+id));
+        model.addAttribute("chitateli", res);
+
+        return "chitateli-edit";
+    }
+
+    @PostMapping("/chitateli/{id}/edit")
+    public String chitatelPostUpdate(@PathVariable("id") long id,
+                                     @ModelAttribute("chitateli")
+                                     @Validated Chitateli chitateli, BindingResult bindingResult)
+    {
+        chitateli.setId(id);
+        if(bindingResult.hasErrors()){
+            return "chitateli-edit";
+        }
+        chitRepository.save(chitateli);
+        return "redirect:/chitateli";
+    }
+
+    @PostMapping("/chitateli/{id}/remove")
+    public String chitatelPostRemove(@PathVariable("id") long id, Model model)
+    {
+        Chitateli chitateli = chitRepository.findById(id).orElseThrow();
+        chitRepository.delete(chitateli);
+        return "redirect:/chitateli";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @GetMapping("/jornalisti")
+    public String blogJornalists(Model model)
+    {
+        Iterable<Jornalisti> jornalisti = jornalRepository.findAll();
+        model.addAttribute("jornalisti", jornalisti);
+        return "jornalisti";
+    }
 
     @GetMapping("/jornalisti/filter")
     public String jornalFilter(Model model)
@@ -166,21 +243,20 @@ public class BlogController  {
         return "jornal-filter";
     }
     @GetMapping("/jornalisti/add")
-    public String jornalistiAdd(Model model)
+    public String jornalistiAdd(Jornalisti jornalisti, Model model)
     {
         return "jornal-add";
     }
 
     @PostMapping("/jornalisti/add")
-    public Object jornalistiAdd(@RequestParam String name,
-                                @RequestParam String fam,
-                                @RequestParam Double cena,
-                                @RequestParam Integer kolvastat,
-                                @RequestParam(defaultValue = "1999-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date denroj, Model model)
+    public Object jornalistiAdd(@ModelAttribute("jornalisti")
+                                @Validated Jornalisti jornalisti, BindingResult bindingResult)
     {
-        Jornalisti jornalisti = new Jornalisti(name, fam,  kolvastat, denroj, cena);
+        if(bindingResult.hasErrors()){
+            return "jornal-add";
+        }
         jornalRepository.save(jornalisti);
-        return "redirect:/";
+        return "redirect:/jornalisti";
     }
 
 
@@ -191,42 +267,28 @@ public class BlogController  {
         ArrayList<Jornalisti> res = new ArrayList<>();
         jornalisti.ifPresent(res::add);
         model.addAttribute("jornalisti", res);
-//        if(!postRepository.existsById(id)){
-//            return "redirect:/jornalisti";
-//        }
         return "jornalisti-details";
     }
 
     @GetMapping("/jornalisti/{id}/edit")
     public String jornalEdit(@PathVariable("id") long id, Model model)
     {
-//        if(!jornalRepository.existsById(id)){
-//            return "redirect:/";
-//        }
-        Optional<Jornalisti> jornalisti = jornalRepository.findById(id);
-        ArrayList<Jornalisti> res = new ArrayList<>();
-        jornalisti.ifPresent(res::add);
+        Jornalisti res = jornalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: "+id));
         model.addAttribute("jornalisti", res);
-
         return "jornalisti-edit";
     }
 
     @PostMapping("/jornalisti/{id}/edit")
     public String jornalPostUpdate(@PathVariable("id") long id,
-                                   @RequestParam String name,
-                                   @RequestParam String fam,
-                                   @RequestParam Double cena,
-                                   @RequestParam Integer kolvastat,
-                                   @RequestParam(defaultValue = "2022-02-02") @DateTimeFormat(pattern = "yyyy-MM-dd") Date denroj, Model model)
+                                   @ModelAttribute("jornalisti")
+                                   @Validated Jornalisti jornalisti, BindingResult bindingResult)
     {
-        Jornalisti jornalisti = jornalRepository.findById(id).orElseThrow();
-        jornalisti.setName(name);
-        jornalisti.setFam(fam);
-        jornalisti.setCena(cena);
-        jornalisti.setKolvastat(kolvastat);
-        jornalisti.setDenroj(denroj);
+        jornalisti.setId(id);
+        if(bindingResult.hasErrors()){
+            return "jornalisti-edit";
+        }
         jornalRepository.save(jornalisti);
-        return "redirect:/";
+        return "redirect:/jornalisti";
     }
 
     @PostMapping("/jornalisti/{id}/remove")
@@ -234,96 +296,6 @@ public class BlogController  {
     {
         Jornalisti jornalisti = jornalRepository.findById(id).orElseThrow();
         jornalRepository.delete(jornalisti);
-        return "redirect:/";
-    }
-
-
-
-
-    @GetMapping("/chitateli/filter")
-    public String chitatelFilter(Model model)
-    {
-        return "chitateli-filter";
-    }
-
-    @PostMapping("/chitateli/filter/result")
-    public String chitatelResult(@RequestParam String fam, Model model)
-    {
-        List<Chitateli> result = chitRepository.findByFam(fam);
-        model.addAttribute("result", result);
-        return "chitateli-filter";
-    }
-    @GetMapping("/chitateli/add")
-    public String chitatelAdd(Model model)
-    {
-        return "chitateli-add";
-    }
-
-    @PostMapping("/chitateli/add")
-    public Object chitatelAdd(@RequestParam String name,
-                                @RequestParam String fam,
-                                @RequestParam Double oklad,
-                                @RequestParam Integer kolvostat,
-                                @RequestParam(defaultValue = "1999-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date denroj, Model model)
-    {
-        Chitateli chitateli = new Chitateli(name, fam, kolvostat, denroj, oklad);
-        chitRepository.save(chitateli);
-        return "redirect:/";
-    }
-
-
-
-
-    @GetMapping("/chitateli/{id}")
-    public String chitatelDetails(@PathVariable(value = "id") long id, Model model)
-    {
-        Optional<Chitateli> chitateli = chitRepository.findById(id);
-        ArrayList<Chitateli> res = new ArrayList<>();
-        chitateli.ifPresent(res::add);
-        model.addAttribute("chitateli", res);
-        if(!chitRepository.existsById(id)){
-            return "redirect:/chitateli";
-        }
-        return "chitateli-details";
-    }
-
-    @GetMapping("/chitateli/{id}/edit")
-    public String chitatelEdit(@PathVariable("id") long id, Model model)
-    {
-        if(!chitRepository.existsById(id)){
-            return "redirect:/";
-        }
-        Optional<Chitateli> chitateli = chitRepository.findById(id);
-        ArrayList<Chitateli> res = new ArrayList<>();
-        chitateli.ifPresent(res::add);
-        model.addAttribute("chitateli", res);
-
-        return "chitateli-edit";
-    }
-
-    @PostMapping("/chitateli/{id}/edit")
-    public String chitatelPostUpdate(@PathVariable("id") long id,
-                                     @RequestParam String name,
-                                     @RequestParam String fam,
-                                     @RequestParam Double oklad,
-                                     @RequestParam Integer kolvostat,
-                                     @RequestParam(defaultValue = "1999-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") Date denroj, Model model)
-    {
-        Chitateli chitateli = chitRepository.findById(id).orElseThrow();
-        chitateli.setName(name);
-        chitateli.setFam(fam);
-        chitateli.setOklad(oklad);
-        chitateli.setKolvostat(kolvostat);
-        chitateli.setDenroj(denroj);
-        chitRepository.save(chitateli);
-        return "redirect:/";
-    }
-
-    @PostMapping("/chitateli/{id}/remove")
-    public String chitatelPostRemove(@PathVariable("id") long id, Model model)
-    {
-        Chitateli chitateli = chitRepository.findById(id).orElseThrow();
-        chitRepository.delete(chitateli);
-        return "redirect:/";
+        return "redirect:/jornalisti";
     }
 }

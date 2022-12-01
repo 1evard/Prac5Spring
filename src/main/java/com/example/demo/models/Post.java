@@ -1,6 +1,9 @@
 package com.example.demo.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,11 +15,24 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
+    @NotEmpty(message = "Поле не может быть пустым")
+    @Size(min = 1, max = 255, message = "От 1 до 255 символов")
     private String title, full_text;
+    @NotNull(message = "Поле не может быть пустым")
+    @DecimalMax(value = "20000.0", message = "Поле не может быть больше 20 тысяч")
+    @DecimalMin(value = "0.0", message = "Поле не может быть меньше 0")
     private Double cenastat;
+    @NotNull(message = "Поле не может быть пустым")
+    @DecimalMax(value = "48.0", message = "Поле не может быть больше 48 часов")
+    @DecimalMin(value = "1.0", message = "Поле не может быть меньше 1 минуты")
     private Float hours;
+
+    @NotNull(message = "Не может быть пустой")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
+    @Past(message = "Дата аннонсирования не может быть будущей")
     private Date datavihoda;
 
     private int views;
@@ -29,7 +45,9 @@ public class Post {
         this.hours = hours;
     }
 
-    public Post() {}
+    public Post() {
+
+    }
 
     public long getId() {
         return this.id;

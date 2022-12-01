@@ -6,15 +6,24 @@
 </head>
 <body bgcolor="6600CC" th:align="center">
 <h1>Добавить читателя</h1>
-<form th:action="${'/chitateli/add'}" method="post">
-    <input type="text" name="name" placeholder="Введите имя читателя"><br>
-    <input type="text" name="fam" placeholder="Введите фамилию читателя"><br>
-    <input type="number" name="kolvostat" placeholder="Введите количество прочитанных статей"><br>
-    <input type="date" name="denroj"><br>
-    <input type="text" name="oklad" placeholder="Введите оклад">
-    <br>
-    <button class="shadow-text" type="submit">Добавить</button><br>
-    <button><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></button>
+<form th:action="${'/chitateli/add'}" method="post" th:object="${chitateli}">
+    <input th:field="*{name}" type="text" name="name" placeholder="Введите имя читателя"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div><br>
+
+    <input th:field="*{fam}" type="text" name="fam" placeholder="Введите фамилию читателя"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('fam')}" th:errors="*{fam}"></div><br>
+
+    <input th:field="*{denroj}" type="date" name="denroj"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('denroj')}" th:errors="*{denroj}"></div><br>
+
+    <input th:field="*{kolvostat}" type="number" name="kolvostat" placeholder="Введите количество прочитанных статей"><br>
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('kolvostat')}" th:errors="*{kolvostat}"></div><br>
+
+    <input th:field="*{oklad}" type="text" name="oklad" placeholder="Введите оклад">
+    <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('oklad')}" th:errors="*{oklad}"></div><br>
+
+    <p><a><button class="shadow-text" type="submit">Добавить</button></a></p><br>
+    <p><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></p>
 </form>
 </body>
 </html>
@@ -24,34 +33,52 @@
     }
     a{
         text-decoration: none;
-    }
-    input{
-        width: 205px;
-        height: 55px;
-        margin-top: 20px;
-        background-color: mediumpurple;
-        border-radius: 15px;
-    }
-    button{
-        width: 220px;
-        height: 40px;
-        margin-top: 20px;
-        background-color: blueviolet;
-        border-radius: 15px;
-    }
-    .shadow-text{
-        color: #000000;
-        font-size: 1.7em;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: #000000;
+        background-color: #9900FF;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 70px;
+        padding-right: 70px;
+        margin-top: 100px;
+
+        font-size: 1.2em;
         text-transform: uppercase;
         line-height: 1;
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
-    .shadow-text:hover{
-        color: #9900FF;
+    a:hover{
+        color: whitesmoke;
+        border-color: mediumpurple;
+        box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);
         font-weight: bold;
-        -webkit-text-shadow: 2px 2px 2px #000;
-        -moz-text-shadow: 2px 2px 2px #000;
-        text-shadow: 2px 2px 2px #000;
+    }
+    p{
+        margin-top: 50px;
+    }
+    input{
+        color: black;
+        width: 200px;
+        height: 50px;
+        background-color: #9900FF;
+        border-radius: 20px;
+    }
+    textarea{
+        color: black;
+        width: 200px;
+        height: 50px;
+        background-color: #9900FF;
+        border-radius: 20px;
+    }
+    button{
+        font-size: 15px;
+        background-color: #9900FF;
     }
 </style>

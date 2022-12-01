@@ -8,52 +8,56 @@
 <h1>Публикации</h1>
 
 <div th:each="ooda : ${posts}">
-        <h3><p>----------------------------------------------------------------</p></h3>
         <h3 th:text="${'Название статьи: '+ooda.title}"></h3>
         <h3 th:text="${'Дата выхода: '+ooda.datavihoda}"></h3>
-        <h4 th:text="${'Текст статьи: '+ooda.full_text}"></h4>
+        <h3 th:text="${'Текст статьи: '+ooda.full_text}"></h3>
         <h3 th:text="${'Часы прочтения: '+ooda.hours}"></h3>
-        <h4 th:text="${'Цена статьи: '+ooda.cenastat}"></h4>
-       <button><a class="shadow-text" th:href=" '/stati/' + ${ooda.id}">Подробнее</a></button>
+        <h3 th:text="${'Цена статьи: '+ooda.cenastat}"></h3>
+       <p><a class="shadow-text" th:href=" '/stati/' + ${ooda.id}">Подробнее</a></p>
 </div>
 
-<button><a class="shadow-text" href="/blog/filter">Поиск статьи</a></button>
-<br>
-<button><a class="shadow-text" href="/blog/add">Создать</a></button>
-<br>
-<button><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></button>
+<p><a href="/blog/filter">Поиск статьи</a></p>
+<p><a href="/blog/add">Создать</a></p>
+<p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
 
 
 
 </body>
 </html>
 <style>
-    a{
-        text-decoration: none;
-    }
     html *{
         font-family: Arial !important;
     }
-    button{
-        width: 220px;
-        height: 40px;
-        margin-top: 20px;
-        background-color: blueviolet;
-        border-radius: 15px;
-    }
-    .shadow-text{
-        color: #000000;
-        font-size: 1.7em;
+    a{
+        text-decoration: none;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: #000000;
+        background-color: #9900FF;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 70px;
+        padding-right: 70px;
+        margin-top: 100px;
+
+        font-size: 1.2em;
         text-transform: uppercase;
         line-height: 1;
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
-    .shadow-text:hover{
-        color: #9900FF;
+    a:hover{
+        color: whitesmoke;
+        border-color: mediumpurple;
+        box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);
         font-weight: bold;
-        -webkit-text-shadow: 2px 2px 2px #000;
-        -moz-text-shadow: 2px 2px 2px #000;
-        text-shadow: 2px 2px 2px #000;
+    }
+    p{
+        margin-top: 50px;
     }
 </style>
