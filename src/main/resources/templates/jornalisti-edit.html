@@ -22,6 +22,15 @@
     <input th:field="*{cena}" th:value="${jornalisti.cena}" type="text" name="cena" placeholder="Введите цену статьи"><br>
     <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('cena')}" th:errors="*{cena}"></div><br>
 
+    <div>
+        <label>Выберите компанию</label>
+        <select name="company_id">
+            <div th:each="r : ${company}">
+                <option  th:value="${r.id}" th:text="${r.getName()}"></option>
+            </div>
+        </select>
+    </div>
+
     <p><a><button type="submit">Применить</button></a></p>
     <br>
     <p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>

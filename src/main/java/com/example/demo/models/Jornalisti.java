@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "jornalisti")
 public class Jornalisti {
@@ -28,19 +30,37 @@ public class Jornalisti {
     @PastOrPresent(message = "Дата аннонсирования не может быть будущей")
     private Date denroj;
 
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
+    private Company company;
+
     private int views;
 
-    public Jornalisti(String name, String fam, Integer kolvastat, Date denroj, Double cena) {
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
+    @ManyToMany
+    @JoinTable(name = "jorn_post",
+            joinColumns = @JoinColumn(name = "jornalisti_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Post> postList;
+
+    public Jornalisti(Long id, String name, String fam, Double cena, Integer kolvastat, Date denroj, Company company, int views, Director director, List<Post> postList) {
+        this.id = id;
         this.name = name;
         this.fam = fam;
+        this.cena = cena;
         this.kolvastat = kolvastat;
         this.denroj = denroj;
-        this.cena = cena;
+        this.company = company;
+        this.views = views;
+        this.director = director;
+        this.postList = postList;
     }
 
     public Jornalisti() {
 
     }
+
 
     public Long getId() {
         return id;
@@ -66,16 +86,6 @@ public class Jornalisti {
         this.fam = fam;
     }
 
-
-    public Date getDenroj() {
-        return denroj;
-    }
-
-    public void setDenroj(Date denroj) {
-        this.denroj = denroj;
-    }
-
-
     public Double getCena() {
         return cena;
     }
@@ -90,5 +100,45 @@ public class Jornalisti {
 
     public void setKolvastat(Integer kolvastat) {
         this.kolvastat = kolvastat;
+    }
+
+    public Date getDenroj() {
+        return denroj;
+    }
+
+    public void setDenroj(Date denroj) {
+        this.denroj = denroj;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
+    }
+
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 }

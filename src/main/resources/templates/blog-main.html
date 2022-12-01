@@ -1,15 +1,31 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>Публикации</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body topmargin="250"  bgcolor="6600CC" th:align="center">
-    <p><a class="p" href="/stati">ПУБЛИКАЦИИ</a></p>
+<link sec:authorize="isAuthenticated()">
+<form th:action="@{/logout}" method="post">
+    <button type="submit">
+        Выйти
+    </button>
+</form>
+</link>
+<p><a href="/stati">ПУБЛИКАЦИИ</a></p>
     <br>
-    <p><a class="p" href="/jornalisti">ЖУРНАЛИСТЫ</a></p>
+    <p><a href="/jornalisti">ЖУРНАЛИСТЫ</a></p>
     <br>
-    <p><a class="p" href="/chitateli">ЧИТАТЕЛИ</a></p>
+    <p><a href="/chitateli">ЧИТАТЕЛИ</a></p>
+    <br>
+    <p><a href="/company">КОМПАНИИ</a></p>
+    <br>
+    <p><a href="/director">ДИРЕКТОРЫ</a></p>
+    <br>
+    <p><a href="/jornpost">ЖУРНАЛИСТ В ПУБЛИКАЦИИ</a></p>
+    <br>
+    <p><a href="/admin">АДМИНОС</a></p>
 </body>
 </html>
 <style>

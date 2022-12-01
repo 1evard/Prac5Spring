@@ -35,14 +35,21 @@ public class Post {
     @Past(message = "Дата аннонсирования не может быть будущей")
     private Date datavihoda;
 
+    @ManyToMany
+    @JoinTable(name = "jorn_post",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "jornalisti_id"))
+    private List<Jornalisti> jornalistiList;
+
     private int views;
 
-    public Post(String title, Date datavihoda, String full_text, Double cenastat, Float hours) {
+    public Post(String title, Date datavihoda, String full_text, Double cenastat, Float hours, List<Jornalisti> jornalistiList) {
         this.title = title;
         this.datavihoda = datavihoda;
         this.full_text = full_text;
         this.cenastat = cenastat;
         this.hours = hours;
+        this.jornalistiList = jornalistiList;
     }
 
     public Post() {
@@ -102,5 +109,13 @@ public class Post {
     }
     public Float getHours() {
         return hours;
+    }
+
+    public List<Jornalisti> getJornalistiList() {
+        return jornalistiList;
+    }
+
+    public void setJornalistiList(List<Jornalisti> jornalistiList) {
+        this.jornalistiList = jornalistiList;
     }
 }

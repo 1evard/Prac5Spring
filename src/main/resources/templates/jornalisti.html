@@ -12,11 +12,13 @@
         <h4 th:text="${'Оклад: '+el.cena}"></h4>
         <h4 th:text="${'Изданных статей: '+el.kolvastat}"></h4>
         <h4 th:text="${'Дата рождения: '+el.denroj}"></h4>
-        <p><a class="shadow-text" th:href=" '/jornalisti/' + ${el.id}">Подробнее</a></p>
+        <h4 th:text="${'Компания: '+el.company.namecompany}"></h4>
+        <h4 th:text="${'Директор: '+el.director.namedirector}"></h4>
+        <p><a th:href=" '/jornalisti/' + ${el.id}">Подробнее</a></p>
     </div>
-<p><a class="shadow-text" href="/jornalisti/filter">Поиск</a></p>
-<p><a class="shadow-text" href="/jornalisti/add">Добавить</a></p>
-<p><a class="shadow-text" onclick="javascript:history.back(-2); return false;">Назад</a></p>
+<p><a href="/jornalisti/filter">Поиск</a></p>
+<p><a href="/jornalisti/add">Добавить</a></p>
+<p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
 </body>
 </html>
 <style>

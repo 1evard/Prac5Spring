@@ -15,13 +15,9 @@
         <h3 th:text="${'Цена статьи: '+ooda.cenastat}"></h3>
        <p><a class="shadow-text" th:href=" '/stati/' + ${ooda.id}">Подробнее</a></p>
 </div>
-
-<p><a href="/blog/filter">Поиск статьи</a></p>
-<p><a href="/blog/add">Создать</a></p>
-<p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
-
-
-
+    <p><a href="/blog/filter">Поиск статьи</a></p>
+    <p><a href="/blog/add">Создать</a></p>
+    <p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
 </body>
 </html>
 <style>

@@ -2,23 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Журналисты</title>
+    <title>Компании</title>
 </head>
 <body bgcolor="6600CC" th:align="center">
-<h1>Журналисты</h1>
-    <div th:align="center" th:each="el : ${jornalisti}">
-        <h3 th:text="${'Имя: '+el.name}"></h3>
-        <h3 th:text="${'Фамилия: '+el.fam}"></h3>
-        <h4 th:text="${'Оклад: '+el.cena}"></h4>
-        <h4 th:text="${'Изданных статей: '+el.kolvastat}"></h4>
-        <h4 th:text="${'Дата рождения: '+el.denroj}"></h4>
-        <h4 th:text="${'Компания: '+el.company.namecompany}"></h4>
-        <h4 th:text="${'Директор: '+el.director.namedirector}"></h4>
-        <p><a th:href=" '/jornalisti/' + ${el.id}">Подробнее</a></p>
+    <h1>Компании</h1>
+    <div th:each="f : ${company}">
+        <h3 th:text="${'Название компании: '+f.namecompany}"></h3>
+        <h3 th:text="${'Директор компании: '+f.director.namedirector}"></h3>
+        <p><a class="shadow-text" th:href=" '/company/' + ${f.id}">Подробнее</a></p>
     </div>
-<p><a href="/jornalisti/filter">Поиск</a></p>
-<p><a href="/jornalisti/add">Добавить</a></p>
-<p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
+    <p><a href="/company/filter">Поиск статьи</a></p>
+    <p><a href="/company/add">Создать</a></p>
+    <p><a onclick="javascript:history.back(-2); return false;">Назад</a></p>
 </body>
 </html>
 <style>

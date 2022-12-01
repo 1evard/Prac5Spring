@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface JornalRepository extends CrudRepository<Jornalisti, Long> {
-    List<Jornalisti> findByFam(String fam);
-    List<Jornalisti> findByFamContains(String fam);
+  Jornalisti findByFamContains(String fam);
+
+  Jornalisti findByNameContains(String fam);
 }

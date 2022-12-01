@@ -28,14 +28,18 @@ public class Chitateli {
     @PastOrPresent(message = "Дата аннонсирования не может быть будущей")
     private Date denroj;
 
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
+    private Company company;
+
     private int views;
 
-    public Chitateli(String name, String fam, Integer kolvostat, Date denroj, Double oklad) {
+    public Chitateli(String name, String fam, Integer kolvostat, Date denroj, Double oklad,Company company) {
         this.name = name;
         this.fam = fam;
         this.kolvostat = kolvostat;
         this.denroj = denroj;
         this.oklad = oklad;
+        this.company = company;
     }
 
     public Chitateli() {
@@ -89,5 +93,13 @@ public class Chitateli {
 
     public void setOklad(Double oklad) {
         this.oklad = oklad;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
